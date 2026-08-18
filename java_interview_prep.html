@@ -1,0 +1,460 @@
+<title>Java Backend — 2 YOE Interview Prep</title>
+<style>
+  :root {
+    --bg: #eef1ef;
+    --surface: #ffffff;
+    --surface-2: #e6e9e6;
+    --ink: #1b2321;
+    --ink-muted: #566058;
+    --ink-faint: #7c867e;
+    --accent: #8a5a2b;
+    --accent-ink: #ffffff;
+    --accent-2: #2f6e6a;
+    --border: #d6dad4;
+    --code-bg: #e7e4dc;
+    --shadow: 0 1px 2px rgba(27,35,33,0.06);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #14181a;
+      --surface: #1b2123;
+      --surface-2: #20272a;
+      --ink: #e8eae5;
+      --ink-muted: #a3ada6;
+      --ink-faint: #717b74;
+      --accent: #cf9d5e;
+      --accent-ink: #191008;
+      --accent-2: #6fb3ab;
+      --border: #2b3235;
+      --code-bg: #232a2c;
+      --shadow: 0 1px 2px rgba(0,0,0,0.4);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #14181a; --surface: #1b2123; --surface-2: #20272a;
+    --ink: #e8eae5; --ink-muted: #a3ada6; --ink-faint: #717b74;
+    --accent: #cf9d5e; --accent-ink: #191008; --accent-2: #6fb3ab;
+    --border: #2b3235; --code-bg: #232a2c; --shadow: 0 1px 2px rgba(0,0,0,0.4);
+  }
+  :root[data-theme="light"] {
+    --bg: #eef1ef; --surface: #ffffff; --surface-2: #e6e9e6;
+    --ink: #1b2321; --ink-muted: #566058; --ink-faint: #7c867e;
+    --accent: #8a5a2b; --accent-ink: #ffffff; --accent-2: #2f6e6a;
+    --border: #d6dad4; --code-bg: #e7e4dc; --shadow: 0 1px 2px rgba(27,35,33,0.06);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.55;
+  }
+  .serif { font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif; }
+  .mono { font-family: ui-monospace, "Cascadia Code", "SF Mono", Consolas, monospace; }
+
+  a { color: inherit; }
+
+  .topbar {
+    border-bottom: 1px solid var(--border);
+    padding: 2rem clamp(1.25rem, 4vw, 3rem) 1.75rem;
+    background: var(--surface);
+  }
+  .eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-size: 0.72rem;
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .topbar h1 {
+    font-size: clamp(1.6rem, 3vw, 2.15rem);
+    margin: 0.35rem 0 0.5rem;
+    text-wrap: balance;
+    font-weight: 600;
+  }
+  .topbar p {
+    margin: 0;
+    max-width: 62ch;
+    color: var(--ink-muted);
+    font-size: 0.98rem;
+  }
+
+  .shell {
+    display: grid;
+    grid-template-columns: 240px minmax(0, 1fr);
+    max-width: 1180px;
+    margin: 0 auto;
+    align-items: start;
+  }
+
+  nav.index {
+    position: sticky;
+    top: 0;
+    align-self: start;
+    max-height: 100vh;
+    overflow-y: auto;
+    padding: 2rem 1rem 2rem 1.5rem;
+    border-right: 1px solid var(--border);
+  }
+  nav.index ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    counter-reset: idx;
+  }
+  nav.index li { margin: 0; }
+  nav.index a {
+    display: block;
+    text-decoration: none;
+    padding: 0.4rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.86rem;
+    color: var(--ink-muted);
+  }
+  nav.index a:hover { background: var(--surface-2); color: var(--ink); }
+  nav.index .n {
+    font-family: ui-monospace, "Cascadia Code", "SF Mono", Consolas, monospace;
+    color: var(--accent);
+    font-size: 0.76rem;
+    margin-right: 0.5em;
+  }
+
+  main {
+    padding: 2rem clamp(1.25rem, 4vw, 3rem) 5rem;
+    min-width: 0;
+  }
+
+  .callout {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent-2);
+    border-radius: 6px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 2.5rem;
+    font-size: 0.92rem;
+    color: var(--ink-muted);
+  }
+  .callout strong { color: var(--ink); }
+
+  section.category {
+    padding-top: 1rem;
+    margin-bottom: 3rem;
+    scroll-margin-top: 1rem;
+    border-top: 1px solid var(--border);
+  }
+  section.category:first-of-type { border-top: none; }
+  .cat-head { display: flex; align-items: baseline; gap: 0.75rem; margin-bottom: 0.35rem; }
+  .cat-num {
+    font-family: ui-monospace, "Cascadia Code", "SF Mono", Consolas, monospace;
+    color: var(--accent);
+    font-size: 0.85rem;
+  }
+  .category h2 {
+    font-size: 1.35rem;
+    margin: 0;
+    font-weight: 600;
+    text-wrap: balance;
+  }
+  .cat-blurb {
+    color: var(--ink-muted);
+    font-size: 0.9rem;
+    margin: 0.15rem 0 1.25rem;
+    max-width: 68ch;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 0.85rem;
+  }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.9rem 1rem;
+    box-shadow: var(--shadow);
+  }
+  .card h3 {
+    font-size: 0.98rem;
+    margin: 0 0 0.35rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+  .card p {
+    margin: 0;
+    font-size: 0.86rem;
+    color: var(--ink-muted);
+  }
+  .tag {
+    font-family: ui-monospace, "Cascadia Code", "SF Mono", Consolas, monospace;
+    font-size: 0.66rem;
+    letter-spacing: 0.02em;
+    padding: 0.1rem 0.4rem;
+    border-radius: 3px;
+    background: var(--code-bg);
+    color: var(--ink-faint);
+    font-weight: 500;
+  }
+  .tag.hot {
+    background: color-mix(in srgb, var(--accent-2) 18%, transparent);
+    color: var(--accent-2);
+  }
+  code.inline {
+    font-family: ui-monospace, "Cascadia Code", "SF Mono", Consolas, monospace;
+    background: var(--code-bg);
+    padding: 0.05rem 0.32rem;
+    border-radius: 3px;
+    font-size: 0.85em;
+  }
+
+  footer {
+    max-width: 68ch;
+    color: var(--ink-faint);
+    font-size: 0.82rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+  }
+
+  @media (max-width: 860px) {
+    .shell { grid-template-columns: 1fr; }
+    nav.index {
+      position: static;
+      max-height: none;
+      border-right: none;
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 1.25rem;
+    }
+    nav.index ol { display: flex; flex-wrap: wrap; gap: 0.25rem; }
+    nav.index li { flex: 0 0 auto; }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html { scroll-behavior: smooth; }
+  }
+</style>
+
+<div class="topbar">
+  <div class="eyebrow">2026 Market Stack &middot; Backend Track</div>
+  <h1 class="serif">Java Interview Prep — 2 Years' Experience</h1>
+  <p>A working reference of what's actually being asked right now: core language, the current LTS features, Spring Boot 3, and the surrounding cloud/data stack. Each entry is deliberately brief — enough to recall the shape of the answer, not a textbook chapter.</p>
+</div>
+
+<div class="shell">
+  <nav class="index">
+    <ol>
+      <li><a href="#core"><span class="n">01</span>Core Java</a></li>
+      <li><a href="#modern"><span class="n">02</span>Modern Java (17 / 21 / 25)</a></li>
+      <li><a href="#concurrency"><span class="n">03</span>Concurrency &amp; Threads</a></li>
+      <li><a href="#jvm"><span class="n">04</span>JVM &amp; Memory</a></li>
+      <li><a href="#spring"><span class="n">05</span>Spring Core &amp; Boot</a></li>
+      <li><a href="#rest"><span class="n">06</span>Building REST APIs</a></li>
+      <li><a href="#data"><span class="n">07</span>Data &amp; Persistence</a></li>
+      <li><a href="#security"><span class="n">08</span>Security</a></li>
+      <li><a href="#microservices"><span class="n">09</span>Microservices</a></li>
+      <li><a href="#messaging"><span class="n">10</span>Messaging &amp; Caching</a></li>
+      <li><a href="#cloud"><span class="n">11</span>Containers &amp; CI/CD</a></li>
+      <li><a href="#testing"><span class="n">12</span>Testing</a></li>
+      <li><a href="#patterns"><span class="n">13</span>Patterns &amp; Principles</a></li>
+      <li><a href="#sysdesign"><span class="n">14</span>System Design Basics</a></li>
+      <li><a href="#emerging"><span class="n">15</span>Worth Knowing in 2026</a></li>
+    </ol>
+  </nav>
+
+  <main>
+    <div class="callout">
+      <strong>Calibrate your depth.</strong> At 2 years, interviewers expect solid fundamentals, real hands-on Spring Boot experience, and the ability to reason about trade-offs — not JVM-tuning war stories or staff-level distributed-systems design. Depth beats breadth on the topics tagged <span class="tag hot">frequent</span>; the rest just needs "I know what it is and when I'd reach for it."
+    </div>
+
+    <section class="category" id="core">
+      <div class="cat-head"><span class="cat-num mono">01</span><h2 class="serif">Core Java</h2></div>
+      <p class="cat-blurb">Still the first 20 minutes of almost every interview — expect rapid-fire fundamentals before anything framework-specific.</p>
+      <div class="grid">
+        <div class="card"><h3>OOP Pillars <span class="tag hot">frequent</span></h3><p>Encapsulation, inheritance, polymorphism, abstraction — be ready to explain each with a code example, not just the definition.</p></div>
+        <div class="card"><h3>Collections Framework <span class="tag hot">frequent</span></h3><p><code class="inline">ArrayList</code> vs <code class="inline">LinkedList</code>, <code class="inline">HashMap</code> internals (buckets, treeification after 8 collisions), <code class="inline">HashSet</code> vs <code class="inline">TreeSet</code>, when to reach for <code class="inline">ConcurrentHashMap</code>.</p></div>
+        <div class="card"><h3>equals() &amp; hashCode()</h3><p>The contract between them, why breaking it corrupts hash-based collections, and how records generate both for free.</p></div>
+        <div class="card"><h3>Exception Handling</h3><p>Checked vs unchecked, try-with-resources and <code class="inline">AutoCloseable</code>, and why swallowing exceptions silently is a common review flag.</p></div>
+        <div class="card"><h3>String Pool &amp; Immutability</h3><p>Why <code class="inline">String</code> is immutable, interning, and <code class="inline">==</code> vs <code class="inline">.equals()</code> gotchas.</p></div>
+        <div class="card"><h3>Generics &amp; Wildcards</h3><p>Type erasure, bounded types (<code class="inline">&lt;T extends X&gt;</code>), and <code class="inline">? super</code> / <code class="inline">? extends</code> (PECS rule).</p></div>
+        <div class="card"><h3>Access Modifiers &amp; Packages</h3><p>public/protected/default/private in practice, and how module boundaries (JPMS) rarely come up but are good to name-check.</p></div>
+      </div>
+    </section>
+
+    <section class="category" id="modern">
+      <div class="cat-head"><span class="cat-num mono">02</span><h2 class="serif">Modern Java — 17, 21 &amp; 25</h2></div>
+      <p class="cat-blurb">17 and 21 are the LTS versions most shops actually run in production; 25 (Sept 2025) is the newest LTS and increasingly what greenfield roles ask about.</p>
+      <div class="grid">
+        <div class="card"><h3>Streams &amp; Lambdas <span class="tag hot">frequent</span></h3><p><code class="inline">map/filter/reduce</code>, collectors, and when a plain for-loop is actually more readable than a stream one-liner.</p></div>
+        <div class="card"><h3>Optional</h3><p>Used to avoid null checks at API boundaries — interviewers often probe misuse, like calling <code class="inline">.get()</code> without checking presence.</p></div>
+        <div class="card"><h3>Records <span class="tag mono">17+</span></h3><p>Immutable data carriers that auto-generate constructor, accessors, <code class="inline">equals</code>/<code class="inline">hashCode</code>/<code class="inline">toString</code> — the default choice for DTOs now.</p></div>
+        <div class="card"><h3>Sealed Classes <span class="tag mono">17+</span></h3><p>Restrict which classes can implement/extend a type, enabling exhaustive pattern matching without a default branch.</p></div>
+        <div class="card"><h3>Pattern Matching for switch <span class="tag mono">21</span></h3><p>Switch expressions that match on type and deconstruct records directly in the case label.</p></div>
+        <div class="card"><h3>Virtual Threads <span class="tag hot">frequent</span> <span class="tag mono">21</span></h3><p>Project Loom's lightweight threads — millions of cheap threads instead of pooled platform threads, aimed squarely at blocking I/O-heavy services. Expect at least one question on this if the role touches Spring Boot 3.2+.</p></div>
+        <div class="card"><h3>Text Blocks <span class="tag mono">17+</span></h3><p>Multi-line string literals (<code class="inline">"""</code>) — mostly relevant for embedded SQL/JSON in code.</p></div>
+      </div>
+    </section>
+
+    <section class="category" id="concurrency">
+      <div class="cat-head"><span class="cat-num mono">03</span><h2 class="serif">Concurrency &amp; Threads</h2></div>
+      <p class="cat-blurb">Less about writing raw threads, more about knowing the tools that manage them for you.</p>
+      <div class="grid">
+        <div class="card"><h3>Executor Framework <span class="tag hot">frequent</span></h3><p>Thread pools via <code class="inline">ExecutorService</code>, fixed vs cached vs scheduled pools, and why unbounded pools are a production risk.</p></div>
+        <div class="card"><h3>CompletableFuture</h3><p>Composing async work with <code class="inline">thenApply</code>/<code class="inline">thenCompose</code>, and combining multiple futures.</p></div>
+        <div class="card"><h3>synchronized &amp; Locks</h3><p>Intrinsic locks vs <code class="inline">ReentrantLock</code>, and when a lock is overkill compared to a concurrent collection.</p></div>
+        <div class="card"><h3>Race Conditions &amp; Deadlocks</h3><p>Be ready to spot a race condition in a code snippet and explain the fix — a very common whiteboard exercise.</p></div>
+        <div class="card"><h3>Virtual Threads vs Platform Threads</h3><p>Virtual threads solve the "thread-per-request is expensive" problem without rewriting code in a reactive style.</p></div>
+      </div>
+    </section>
+
+    <section class="category" id="jvm">
+      <div class="cat-head"><span class="cat-num mono">04</span><h2 class="serif">JVM &amp; Memory</h2></div>
+      <p class="cat-blurb">Shallow-but-correct is the bar at 2 years — know the model, not the tuning flags.</p>
+      <div class="grid">
+        <div class="card"><h3>Heap vs Stack</h3><p>Objects live on the heap, method frames and local primitives on the stack — the usual source of <code class="inline">StackOverflowError</code> vs <code class="inline">OutOfMemoryError</code> questions.</p></div>
+        <div class="card"><h3>Garbage Collection</h3><p>Generational GC concept (young/old gen), and that G1 is the default collector; ZGC/Shenandoah exist for low-pause needs.</p></div>
+        <div class="card"><h3>Class Loading</h3><p>Bootstrap → platform → application classloader delegation — rarely deep-dived, good to recognize by name.</p></div>
+        <div class="card"><h3>Common Memory Leaks</h3><p>Static collections that keep growing, unclosed resources, and listeners that are never deregistered.</p></div>
+      </div>
+    </section>
+
+    <section class="category" id="spring">
+      <div class="cat-head"><span class="cat-num mono">05</span><h2 class="serif">Spring Core &amp; Boot</h2></div>
+      <p class="cat-blurb">The single biggest chunk of a Java backend interview at this level. Spring Boot 3.x (Jakarta EE 9+, Java 17 baseline) is the current standard.</p>
+      <div class="grid">
+        <div class="card"><h3>IoC &amp; Dependency Injection <span class="tag hot">frequent</span></h3><p>Spring owns object creation and wiring; constructor injection is the preferred style over field injection for testability.</p></div>
+        <div class="card"><h3>Bean Lifecycle &amp; Scopes</h3><p>Singleton (default) vs prototype vs request/session scope, and <code class="inline">@PostConstruct</code>/<code class="inline">@PreDestroy</code> hooks.</p></div>
+        <div class="card"><h3>Auto-configuration &amp; Starters</h3><p>How <code class="inline">spring-boot-starter-*</code> dependencies trigger conditional bean registration behind the scenes.</p></div>
+        <div class="card"><h3>Stereotype Annotations</h3><p><code class="inline">@Component</code>, <code class="inline">@Service</code>, <code class="inline">@Repository</code>, <code class="inline">@Controller</code> — functionally similar, semantically distinct, and <code class="inline">@Repository</code> also translates persistence exceptions.</p></div>
+        <div class="card"><h3>AOP Basics</h3><p>How <code class="inline">@Transactional</code> and logging aspects work via proxies — and why calling an annotated method from within the same class bypasses the proxy.</p></div>
+        <div class="card"><h3>Profiles &amp; Configuration</h3><p><code class="inline">application.yml</code> per environment, <code class="inline">@Value</code> vs <code class="inline">@ConfigurationProperties</code>.</p></div>
+      </div>
+    </section>
+
+    <section class="category" id="rest">
+      <div class="cat-head"><span class="cat-num mono">06</span><h2 class="serif">Building REST APIs</h2></div>
+      <p class="cat-blurb">Where "I've built things" gets proven — expect a live-coding or design-a-controller exercise.</p>
+      <div class="grid">
+        <div class="card"><h3>@RestController &amp; Mapping <span class="tag hot">frequent</span></h3><p><code class="inline">@GetMapping</code>/<code class="inline">@PostMapping</code>, path vs query vs request-body params, and correct HTTP status code usage.</p></div>
+        <div class="card"><h3>Bean Validation</h3><p><code class="inline">@Valid</code> with <code class="inline">@NotNull</code>/<code class="inline">@Size</code> etc. on DTOs, and how violations surface as 400s.</p></div>
+        <div class="card"><h3>Global Exception Handling <span class="tag hot">frequent</span></h3><p><code class="inline">@ControllerAdvice</code> + <code class="inline">@ExceptionHandler</code> to turn exceptions into consistent error responses instead of leaking stack traces.</p></div>
+        <div class="card"><h3>DTO Pattern</h3><p>Never expose JPA entities directly over the wire; mapping via MapStruct or manual constructors is the norm.</p></div>
+        <div class="card"><h3>API Versioning &amp; Docs</h3><p>URI or header-based versioning basics, and springdoc-openapi for Swagger UI generation.</p></div>
+      </div>
+    </section>
+
+    <section class="category" id="data">
+      <div class="cat-head"><span class="cat-num mono">07</span><h2 class="serif">Data &amp; Persistence</h2></div>
+      <p class="cat-blurb">JPA/Hibernate questions are where candidates most often get caught out on shallow understanding.</p>
+      <div class="grid">
+        <div class="card"><h3>Spring Data JPA <span class="tag hot">frequent</span></h3><p>Repository interfaces, derived query methods, and <code class="inline">@Query</code> for JPQL/native SQL.</p></div>
+        <div class="card"><h3>Entity Relationships</h3><p><code class="inline">@OneToMany</code>/<code class="inline">@ManyToOne</code>, and owning side vs inverse side — a classic "explain mappedBy" question.</p></div>
+        <div class="card"><h3>Lazy vs Eager Loading <span class="tag hot">frequent</span></h3><p>Default fetch types per relationship, and <code class="inline">LazyInitializationException</code> when accessed outside a session.</p></div>
+        <div class="card"><h3>The N+1 Problem <span class="tag hot">frequent</span></h3><p>One query to fetch a list, then N more for each association — fixed with <code class="inline">JOIN FETCH</code> or entity graphs. Very commonly asked.</p></div>
+        <div class="card"><h3>Transactions &amp; ACID</h3><p><code class="inline">@Transactional</code> propagation and isolation levels, and what rolls back on a checked vs unchecked exception by default.</p></div>
+        <div class="card"><h3>Schema Migrations</h3><p>Flyway or Liquibase for versioned, repeatable schema changes instead of manual DDL.</p></div>
+        <div class="card"><h3>SQL Fundamentals</h3><p>Joins, indexing basics, and why an unindexed <code class="inline">WHERE</code> clause on a large table is a red flag.</p></div>
+      </div>
+    </section>
+
+    <section class="category" id="security">
+      <div class="cat-head"><span class="cat-num mono">08</span><h2 class="serif">Security</h2></div>
+      <p class="cat-blurb">Even non-security roles get asked the basics of how a request gets authenticated.</p>
+      <div class="grid">
+        <div class="card"><h3>Spring Security Filter Chain</h3><p>Requests pass through a chain of filters before hitting a controller — authentication happens before authorization.</p></div>
+        <div class="card"><h3>JWT Authentication <span class="tag hot">frequent</span></h3><p>Stateless auth via signed tokens, what's typically in the payload, and where refresh tokens fit in.</p></div>
+        <div class="card"><h3>OAuth2 / OIDC Basics</h3><p>Authorization Code flow at a conceptual level — enough to explain "login with Google" style flows.</p></div>
+        <div class="card"><h3>Password Hashing</h3><p>BCrypt (or Argon2) with salting — never store plaintext or use fast general-purpose hashes like MD5/SHA-1 for passwords.</p></div>
+      </div>
+    </section>
+
+    <section class="category" id="microservices">
+      <div class="cat-head"><span class="cat-num mono">09</span><h2 class="serif">Microservices &amp; Distributed Systems</h2></div>
+      <p class="cat-blurb">Most 2 YOE roles want awareness here, not deep architecture ownership.</p>
+      <div class="grid">
+        <div class="card"><h3>Monolith vs Microservices</h3><p>Trade-offs: independent deployability and scaling vs added operational and network complexity.</p></div>
+        <div class="card"><h3>Service Discovery</h3><p>Eureka or Consul let services find each other by name instead of hardcoded hosts.</p></div>
+        <div class="card"><h3>API Gateway</h3><p>Spring Cloud Gateway as the single entry point for routing, rate limiting, and auth.</p></div>
+        <div class="card"><h3>Circuit Breaker <span class="tag hot">frequent</span></h3><p>Resilience4j — stop calling a failing downstream service and fail fast instead of cascading the failure.</p></div>
+        <div class="card"><h3>Centralized Config</h3><p>Spring Cloud Config for externalized, environment-specific configuration across services.</p></div>
+        <div class="card"><h3>Distributed Tracing</h3><p>Micrometer Tracing (successor to Sleuth) + Zipkin/Jaeger to follow a request across service boundaries.</p></div>
+      </div>
+    </section>
+
+    <section class="category" id="messaging">
+      <div class="cat-head"><span class="cat-num mono">10</span><h2 class="serif">Messaging &amp; Caching</h2></div>
+      <p class="cat-blurb">Kafka experience is one of the most commonly screened-for skills on job postings right now.</p>
+      <div class="grid">
+        <div class="card"><h3>Kafka Basics <span class="tag hot">frequent</span></h3><p>Topics, partitions, producers/consumers, and consumer groups for parallel, ordered-per-partition processing.</p></div>
+        <div class="card"><h3>RabbitMQ Basics</h3><p>Exchange/queue/binding model — the more common choice for traditional task-queue style messaging.</p></div>
+        <div class="card"><h3>Redis Caching <span class="tag hot">frequent</span></h3><p><code class="inline">@Cacheable</code>/<code class="inline">@CacheEvict</code> in Spring, and cache invalidation as the perennially hard problem.</p></div>
+        <div class="card"><h3>Event-Driven Basics</h3><p>Publishing domain events instead of direct service-to-service calls to reduce coupling.</p></div>
+      </div>
+    </section>
+
+    <section class="category" id="cloud">
+      <div class="cat-head"><span class="cat-num mono">11</span><h2 class="serif">Containers, Cloud &amp; CI/CD</h2></div>
+      <p class="cat-blurb">Table stakes for "can this person ship" — most teams expect familiarity even without deep DevOps ownership.</p>
+      <div class="grid">
+        <div class="card"><h3>Docker <span class="tag hot">frequent</span></h3><p>Writing a Dockerfile for a Spring Boot app, multi-stage builds to keep images small, and basic image/layer concepts.</p></div>
+        <div class="card"><h3>Kubernetes Basics</h3><p>Pods, deployments, and services at a conceptual level — enough to describe how a Java app gets deployed and scaled.</p></div>
+        <div class="card"><h3>CI/CD Pipelines</h3><p>GitHub Actions or Jenkins running build → test → package → deploy on every push.</p></div>
+        <div class="card"><h3>Build Tools</h3><p>Maven vs Gradle — dependency management, lifecycle phases, and multi-module project basics.</p></div>
+      </div>
+    </section>
+
+    <section class="category" id="testing">
+      <div class="cat-head"><span class="cat-num mono">12</span><h2 class="serif">Testing</h2></div>
+      <p class="cat-blurb">A "how do you test this" follow-up is almost guaranteed after any coding exercise.</p>
+      <div class="grid">
+        <div class="card"><h3>JUnit 5 <span class="tag hot">frequent</span></h3><p>Annotations (<code class="inline">@Test</code>, <code class="inline">@BeforeEach</code>), assertions, and parameterized tests.</p></div>
+        <div class="card"><h3>Mockito</h3><p>Mocking dependencies to isolate the unit under test — <code class="inline">when/thenReturn</code>, <code class="inline">verify</code>.</p></div>
+        <div class="card"><h3>Spring Boot Test Slices</h3><p><code class="inline">@SpringBootTest</code> for full context, <code class="inline">@WebMvcTest</code>/<code class="inline">@DataJpaTest</code> for faster, narrower slices.</p></div>
+        <div class="card"><h3>Testcontainers <span class="tag hot">frequent</span></h3><p>Spins up a real Postgres/Kafka in Docker for integration tests instead of mocking the database — now the de facto standard over H2.</p></div>
+        <div class="card"><h3>Test Pyramid</h3><p>Many fast unit tests, fewer integration tests, a handful of end-to-end tests — know why the ratio matters.</p></div>
+      </div>
+    </section>
+
+    <section class="category" id="patterns">
+      <div class="cat-head"><span class="cat-num mono">13</span><h2 class="serif">Design Patterns &amp; Principles</h2></div>
+      <p class="cat-blurb">Asked less as trivia now, more as "why did you structure the code this way."</p>
+      <div class="grid">
+        <div class="card"><h3>SOLID <span class="tag hot">frequent</span></h3><p>The five principles — Single Responsibility and Dependency Inversion come up most in Spring codebases specifically.</p></div>
+        <div class="card"><h3>Singleton, Factory, Builder</h3><p>Spring beans are singletons by default in practice; Builder shows up constantly for constructing complex DTOs/entities.</p></div>
+        <div class="card"><h3>Strategy &amp; Observer</h3><p>Strategy maps naturally onto swapping implementations via DI; Observer underlies Spring's event publishing model.</p></div>
+        <div class="card"><h3>DRY, KISS, YAGNI</h3><p>Less "define these," more "does your code demonstrate them" during a live-coding round.</p></div>
+      </div>
+    </section>
+
+    <section class="category" id="sysdesign">
+      <div class="cat-head"><span class="cat-num mono">14</span><h2 class="serif">System Design Basics</h2></div>
+      <p class="cat-blurb">Light-touch at this level — the goal is showing you can reason about scale, not designing Netflix.</p>
+      <div class="grid">
+        <div class="card"><h3>Horizontal vs Vertical Scaling</h3><p>Adding more instances vs a bigger box, and why stateless services make horizontal scaling straightforward.</p></div>
+        <div class="card"><h3>Load Balancing</h3><p>Round-robin vs least-connections at a conceptual level, sitting in front of multiple service instances.</p></div>
+        <div class="card"><h3>Caching Strategy</h3><p>Cache-aside as the pattern you'll actually be asked to reason through: read miss → load → populate cache.</p></div>
+        <div class="card"><h3>CAP Theorem</h3><p>Consistency, Availability, Partition tolerance — pick two; know where your database of choice lands.</p></div>
+      </div>
+    </section>
+
+    <section class="category" id="emerging">
+      <div class="cat-head"><span class="cat-num mono">15</span><h2 class="serif">Worth Knowing in 2026</h2></div>
+      <p class="cat-blurb">Newer additions to the ecosystem — not core to most interviews yet, but increasingly showing up as "have you looked at" questions.</p>
+      <div class="grid">
+        <div class="card"><h3>Spring AI</h3><p>Spring's abstraction over LLM providers (chat clients, RAG, vector stores) — relevant if the team is building AI features on a Java backend.</p></div>
+        <div class="card"><h3>GraalVM Native Image</h3><p>Ahead-of-time compiled Java for near-instant startup and lower memory — increasingly used for serverless/container-dense deployments.</p></div>
+        <div class="card"><h3>Java 25 LTS</h3><p>The newest long-term-support release (Sept 2025); most production shops are still migrating from 17/21, but it's a fair "are you keeping up" question.</p></div>
+        <div class="card"><h3>Structured Concurrency</h3><p>A preview API for treating a group of related virtual-thread tasks as a single unit of work with unified cancellation and error handling.</p></div>
+      </div>
+    </section>
+
+    <footer>
+      Use this as a checklist, not a script: for each card, you should be able to say the one-liner out loud and back it with a project you actually built it in. Depth on the <span class="tag hot" style="vertical-align:1px;">frequent</span>-tagged items matters more than coverage of everything else.
+    </footer>
+  </main>
+</div>
